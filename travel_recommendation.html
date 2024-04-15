@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Recommendation Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+        </ul>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search destinations...">
+            <button onclick="search()">Search</button>
+            <button onclick="clearSearch()">Clear</button>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <section class="content">
+        <div class="background-image">
+            <!-- Background image for home page goes here -->
+        </div>
+        <div class="content-text">
+            <h1>Welcome to Our Travel Recommendation Platform</h1>
+            <p>Discover amazing destinations around the world and plan your next adventure with us.</p>
+            <a href="#" class="book-now-btn">Book Now</a>
+        </div>
+        <div class="social-media">
+            <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
+            <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
+        </div>
+    </section>
+
+    <!-- About Us Page -->
+    <section class="about-us">
+        <div class="about-text">
+            <h2>About Us</h2>
+            <p>We are passionate travelers who want to share our experiences and recommendations with you. Our goal is to inspire you to explore new destinations and create unforgettable memories.</p>
+        </div>
+        <div class="team-members">
+            <!-- Add images and descriptions of team members -->
+        </div>
+    </section>
+
+    <!-- Contact Us Page -->
+    <section class="contact-us">
+        <div class="contact-form">
+            <h2>Contact Us</h2>
+            <form action="submit_form.php" method="POST">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Beach Recommendation -->
+    <section class="recommendation">
+        <h2>Beach Recommendation</h2>
+        <div class="images">
+            <img src="beach1.jpg" alt="Beach 1">
+            <img src="beach2.jpg" alt="Beach 2">
+        </div>
+        <p>Relax on the pristine beaches of Fiji. Enjoy crystal-clear waters, soft sand, and stunning sunsets.</p>
+    </section>
+
+    <!-- Temple Recommendation -->
+    <section class="recommendation">
+        <h2>Temple Recommendation</h2>
+        <div class="images">
+            <img src="temple1.jpg" alt="Temple 1">
+            <img src="temple2.jpg" alt="Temple 2">
+        </div>
+        <p>Experience spiritual tranquility at the ancient temples of Kyoto, Japan. Marvel at the intricate architecture and serene atmosphere.</p>
+    </section>
+
+    <!-- Recommendation Based on Country -->
+    <section class="recommendation">
+        <h2>Recommendation Based on Country</h2>
+        <div class="images">
+            <img src="country1.jpg" alt="Country 1">
+            <img src="country2.jpg" alt="Country 2">
+        </div>
+        <p>Explore the vibrant culture and rich history of Italy. Indulge in delicious cuisine, visit historic landmarks, and wander through charming cobblestone streets.</p>
+    </section>
+
+    <script src="travel_recommendation.js"></script>
+</body>
+</html>
+
