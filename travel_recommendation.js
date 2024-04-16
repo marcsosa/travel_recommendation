@@ -1,94 +1,84 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Función para realizar la búsqueda
-    function search() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const recommendations = document.querySelectorAll('.recommendation');
+function searchCondition() {
+    const input = document.getElementById("countryInput").value.trim().toLowerCase();
+    const resultDiv = document.getElementById("data-container");
+    resultDiv.innerHTML = "";
 
-        recommendations.forEach(recommendation => {
-            const text = recommendation.textContent.toLowerCase();
-            if (text.includes(searchInput)) {
-                recommendation.style.display = 'block';
-            } else {
-                recommendation.style.display = 'none';
+    fetch("/travel_recommendation_api.json")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
             }
-        });
-    }
-
-    // Función para limpiar la búsqueda y mostrar todas las recomendaciones
-    function clearSearch() {
-        const recommendations = document.querySelectorAll('.recommendation');
-        recommendations.forEach(recommendation => {
-            recommendation.style.display = 'block';
-        });
-    }
-
-    // Fetch data from the JSON file
-    function fetchData() {
-        return fetch('travel_recommendation_api.json')
-            .then(response => response.json())
-            .catch(error => console.error('Error fetching data:', error));
-    }
-
-    // Function to handle keyword searches
-    function handleSearch(keyword) {
-        const lowercaseKeyword = keyword.toLowerCase();
-        fetchData()
-            .then(data => {
-                let recommendations = [];
-                if (lowercaseKeyword === 'beach' || lowercaseKeyword === 'beaches') {
-                    recommendations = data.beachRecommendations;
-                } else if (lowercaseKeyword === 'temple' || lowercaseKeyword === 'temples') {
-                    recommendations = data.templeRecommendations;
-                } else if (lowercaseKeyword === 'country' || lowercaseKeyword === 'countries') {
-                    recommendations = data.countryRecommendations;
-                } else {
-                    // Keyword not recognized, handle accordingly
-                    console.log('Keyword not recognized');
-                    return;
-                }
-                displayRecommendations(recommendations);
-            });
-    }
-
-    // Function to display recommendations
-    function displayRecommendations(recommendations) {
-        // Display recommendations in the UI
-        const recommendationContainer = document.getElementById('recommendations');
-        recommendationContainer.innerHTML = ''; // Clear previous recommendations
-        recommendations.forEach(recommendation => {
-            const recommendationElement = document.createElement('div');
-            recommendationElement.classList.add('recommendation');
-            recommendationElement.innerHTML = `
-                <img src="${recommendation.imageUrl}" alt="${recommendation.name}">
-                <h3>${recommendation.name}</h3>
-                <p>${recommendation.description}</p>
-            `;
-            recommendationContainer.appendChild(recommendationElement);
-        });
-    }
-
-    // Event listener for search button
-    const searchForm = document.getElementById('search-form');
-    searchForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent form submission
-        const keyword = document.getElementById('searchInput').value;
-        handleSearch(keyword);
-    });
-
-    // Event listener for clear button
-    const clearButton = document.getElementById('clear-button');
-    clearButton.addEventListener('click', function () {
-        clearSearch();
-    });
-
-    // Initial display of all recommendations on page load
-    fetchData()
+            return response.json();
+        })
         .then(data => {
-            const allRecommendations = [
-                ...data.beachRecommendations,
-                ...data.templeRecommendations,
-                ...data.countryRecommendations
-            ];
-            displayRecommendations(allRecommendations);
+            const { beaches, temples, countries } = data;
+            const country = countries.find(item => item.name.toLowerCase() === input);
+
+            if (country) {
+                renderCities(country.cities);
+            } else if (beaches && beaches.some(beach => beach.name.toLowerCase() === input)) {
+                renderItems(beaches);
+            } else if (temples && temples.some(temple => temple.name.toLowerCase() === input)) {
+                renderItems(temples);
+            } else if (countries) {
+                countries.forEach(country => renderCities(country.cities));
+            } else {
+                displayError();
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            displayError();
         });
+
+    function renderCities(cities) {
+        resultDiv.classList.add("bg-white", "py-4");
+        cities.forEach(city => {
+            resultDiv.innerHTML += `
+                <div class="mb-8 p-5">
+                    <h1 class="text-2xl font-bold mb-2">${city.name}</h1>
+                    <img src="${city.imageUrl}" alt="${city.name}" class="mb-2 w-96">
+                    <p class="text-lg">${city.description}</p>
+                </div>
+            `;
+        });
+    }
+
+    function renderItems(items) {
+        resultDiv.classList.add("bg-white", "py-4");
+        items.forEach(item => {
+            resultDiv.innerHTML += `
+                <div class="mb-8">
+                    <h1 class="text-2xl font-bold mb-2">${item.name}</h1>
+                    <img src="${item.imageUrl}" alt="${item.name}" class="mb-2 w-96">
+                    <p class="text-lg">${item.description}</p>
+                </div>
+            `;
+        });
+    }
+
+    function displayError() {
+        resultDiv.innerHTML = `<h1 class="text-4xl font-bold text-black text-center">¡No se encontró! Hubo un error.</h1>`;
+    }
+}
+
+document.getElementById("btnSearch").addEventListener("click", searchCondition);
+
+document.getElementById("countryInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchCondition();
+        clearResults();
+    }
 });
+
+function clearSearch() {
+    document.getElementById("countryInput").value = "";
+    clearResults();
+}
+
+function clearResults() {
+    document.getElementById("data-container").innerHTML = "";
+    const style = document.querySelector("style");
+    if (style) style.remove();
+    document.getElementById("data-container").className = "";
+}

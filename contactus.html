@@ -4,42 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Travel Recommendation Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="/" class="nav-link">Home</a></li>
-            <li><a href="/aboutus.html" class="nav-link">About Us</a></li>
-            <li><a href="/contactus.html" class="nav-link">Contact Us</a></li>
-        </ul>
-    </nav>
+ <!-- Navigation -->
+ <nav class="bg-blue-500 p-4 flex justify-between items-center">
+    <div>
+        <a href="#" class="text-white font-bold text-lg">MLCQ</a>
+    </div>
+   
+    <div>
+        <a href="/" class="text-white hover:underline mr-4">Home</a>
+        <a href="/contactus.html" class="text-white hover:underline mr-4">Contacto</a>
+        <a href="/aboutus.html" class="text-white hover:underline">Acerca de nosotros</a>
+    </div>
+</nav>
 
-    <!-- Contact Form Section -->
-    <section class="contact-section">
-        <div class="contact-form">
-            <h1>Contact Us</h1>
+   <!-- Contact Form Section -->
+<section class="contact-section bg-green-200 bg-opacity-50 rounded py-12">
+    <div class="container mx-auto px-4">
+        <div class="contact-form max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+            <h1 class="text-2xl font-semibold mb-4">Contact Us</h1>
             <form action="#" method="POST">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Name:</label>
+                    <input type="text" id="name" name="name" required class="w-full border border-gray-300 rounded-md px-4 py-2">
                 </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700">Email:</label>
+                    <input type="email" id="email" name="email" required class="w-full border border-gray-300 rounded-md px-4 py-2">
                 </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                <div class="mb-4">
+                    <label for="message" class="block text-gray-700">Message:</label>
+                    <textarea id="message" name="message" rows="5" required class="w-full border border-gray-300 rounded-md px-4 py-2"></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Submit</button>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md">Submit</button>
             </form>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <script src="travel_recommendation.js"></script>
 </body>
