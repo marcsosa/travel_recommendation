@@ -3,7 +3,7 @@ function searchCondition() {
     const resultDiv = document.getElementById("data-container");
     resultDiv.innerHTML = "";
 
-    fetch("./travel_recommendation_api.json")
+    fetch("/travel_recommendation_api.json")
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -12,16 +12,17 @@ function searchCondition() {
         })
         .then(data => {
             const { beaches, temples, countries } = data;
-            const country = countries.find(item => item.name.toLowerCase() === input);
-
-            if (country) {
-                renderCities(country.cities);
-            } else if (beaches && beaches.some(beach => beach.name.toLowerCase() === input)) {
-                renderItems(beaches);
-            } else if (temples && temples.some(temple => temple.name.toLowerCase() === input)) {
-                renderItems(temples);
-            } else if (countries) {
-                countries.forEach(country => renderCities(country.cities));
+            if (countries) {
+                const country = countries.find(item => item.name.toLowerCase() === input);
+                if (country) {
+                    renderCities(country.cities);
+                } else if (beaches && beaches.some(beach => beach.name.toLowerCase() === input)) {
+                    renderItems(beaches);
+                } else if (temples && temples.some(temple => temple.name.toLowerCase() === input)) {
+                    renderItems(temples);
+                } else {
+                    displayError();
+                }
             } else {
                 displayError();
             }
@@ -32,7 +33,8 @@ function searchCondition() {
         });
 
     function renderCities(cities) {
-        resultDiv.classList.add("bg-white", "py-4");
+        resultDiv.innerHTML = "";
+        resultDiv.classList.add("bg-white", "overflow-y-scroll", "overflow-x-hidden", "py-4");
         cities.forEach(city => {
             resultDiv.innerHTML += `
                 <div class="mb-8 p-5">
@@ -45,7 +47,8 @@ function searchCondition() {
     }
 
     function renderItems(items) {
-        resultDiv.classList.add("bg-white", "py-4");
+        resultDiv.innerHTML = "";
+        resultDiv.classList.add("bg-white", "", "overflow-x-hidden", "py-4");
         items.forEach(item => {
             resultDiv.innerHTML += `
                 <div class="mb-8">
@@ -62,13 +65,14 @@ function searchCondition() {
     }
 }
 
-document.getElementById("btnSearch").addEventListener("click", searchCondition);
-
-document.getElementById("countryInput").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        searchCondition();
-        clearResults();
-    }
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("btnSearch").addEventListener("click", searchCondition);
+    document.getElementById("countryInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            searchCondition();
+            clearResults();
+        }
+    });
 });
 
 function clearSearch() {
@@ -77,8 +81,7 @@ function clearSearch() {
 }
 
 function clearResults() {
-    document.getElementById("data-container").innerHTML = "";
-    const style = document.querySelector("style");
-    if (style) style.remove();
-    document.getElementById("data-container").className = "";
+    const resultDiv = document.getElementById("data-container");
+    resultDiv.innerHTML = "";
+    resultDiv.className = "";
 }
