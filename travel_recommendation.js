@@ -10,7 +10,7 @@ document.getElementById('searchInput').addEventListener('keypress', function(eve
     if (event.key === 'Enter') {
         ObtenerData();
     }
-});
+}); 
 
 let dataJson;
 function ObtenerData() {
