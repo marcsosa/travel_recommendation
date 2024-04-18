@@ -6,6 +6,13 @@ function resetBusqueda() {
     displayResults([]);
 }
 
+document.getElementById('searchInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        ObtenerData();
+    }
+});
+
+
 function ObtenerData() {
     const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
     if (keyword === '') {
