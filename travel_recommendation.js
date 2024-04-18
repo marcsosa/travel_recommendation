@@ -1,5 +1,5 @@
 
-let jsonData;
+
 
 function resetBusqueda() {
     document.getElementById('searchInput').value = '';
@@ -12,7 +12,7 @@ document.getElementById('searchInput').addEventListener('keypress', function(eve
     }
 });
 
-
+let dataJson;
 function ObtenerData() {
     const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
     if (keyword === '') {
@@ -28,7 +28,7 @@ function ObtenerData() {
             return response.json();
         })
         .then(data => {
-            jsonData = data;
+            dataJson = data;
             filterResults(keyword);
         })
         .catch(error => {
@@ -39,7 +39,7 @@ function ObtenerData() {
 function filterResults(keyword) {
     const filteredCities = [];
 
-    jsonData.countries.forEach(country => {
+    dataJson.countries.forEach(country => {
         country.cities.forEach(city => {
             if (city.name.toLowerCase().includes(keyword) || city.description.toLowerCase().includes(keyword)) {
                 filteredCities.push(city);
@@ -48,13 +48,13 @@ function filterResults(keyword) {
     });
 
     if (keyword.toLowerCase().includes('temple')) {
-        jsonData.temples.forEach(temple => {
+        dataJson.temples.forEach(temple => {
             filteredCities.push(temple);
         });
     }
 
     if (keyword.toLowerCase().includes('beach')) {
-        jsonData.beaches.forEach(beach => {
+        dataJson.beaches.forEach(beach => {
             filteredCities.push(beach);
         });
     }
